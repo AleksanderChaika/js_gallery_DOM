@@ -1,37 +1,24 @@
-(function () {
-  'use strict';
+'use strict';
 
-  const largeImg = document.querySelector('#largeImg');
-  const thumbs = document.querySelector('#thumbs');
+const largeImg = document.querySelector('#largeImg');
+const thumbs = document.querySelector('#thumbs');
 
-  if (!thumbs || !largeImg) {
+thumbs.addEventListener('click', (e) => {
+  const link = e.target.closest('a');
+
+  if (!link || !link.href || !largeImg) {
     return;
   }
 
-  thumbs.addEventListener('click', (e) => {
-    const target = e.target;
-    let link;
-    let imgElement;
+  const imgElement = link.querySelector('img');
 
-    if (target.tagName === 'IMG') {
-      imgElement = target;
-      link = target.closest('a');
-    } else if (target.tagName === 'A') {
-      link = target;
-      imgElement = target.querySelector('img');
-    }
+  e.preventDefault();
 
-    if (!link || !link.href) {
-      return;
-    }
+  largeImg.src = link.href;
 
-    e.preventDefault();
-    largeImg.src = link.href;
-
-    if (imgElement && imgElement.alt) {
-      largeImg.alt = imgElement.alt;
-    } else {
-      largeImg.alt = 'Enlarged image from gallery';
-    }
-  });
-})();
+  if (imgElement && imgElement.alt) {
+    largeImg.alt = imgElement.alt;
+  } else {
+    largeImg.alt = 'Enlarged image from gallery';
+  }
+});
